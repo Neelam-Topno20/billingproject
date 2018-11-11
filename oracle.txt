@@ -1,0 +1,44 @@
+CREATE TABLE supplier
+( supplier_id numeric(10) not null,
+  supplier_name varchar2(50) not null,
+  contact_name varchar2(50),
+  CONSTRAINT supplier_pk PRIMARY KEY (supplier_id)
+);
+
+CREATE TABLE products
+( product_id numeric(10) primary key,
+  supplier_id numeric(10) not null,
+  CONSTRAINT fk_supplier
+    FOREIGN KEY (supplier_id)
+    REFERENCES supplier(supplier_id)
+);
+
+create sequence seq_supplier start with 101; 
+
+create sequence seq_products start with 101;
+ 
+insert into supplier (supplier_id ,supplier_name )  values(seq_supplier.nextval,'keshav');
+
+insert into products(product_id,supplier_id )  values(seq_products.nextval,101);
+---------------------------------------------------------------------------------------------------------------------
+
+
+insert into plan(PLANID,FREEINTERNETDATAUSAGEUNITS,FREELOCALCALLS,
+FREELOCALSMS,FREESTDCALLS,FREESTDSMS,INTERNETDATAUSAGERATE,
+LOCALCALLRATE,LOCALSMSRATE,MONTHLYRENTAL,PLANCIRCLE,PLANNAME,
+STDCALLRATE,STDSMSRATE)values(1234,10,10,10,10,10,10,10,10,10,'pune','diwali special',10,10);
+
+insert into plan(PLANID,FREEINTERNETDATAUSAGEUNITS,FREELOCALCALLS,
+FREELOCALSMS,FREESTDCALLS,FREESTDSMS,INTERNETDATAUSAGERATE,
+LOCALCALLRATE,LOCALSMSRATE,MONTHLYRENTAL,PLANCIRCLE,PLANNAME,
+STDCALLRATE,STDSMSRATE)values(4567,10,10,10,10,10,10,10,10,10,'pune','new year special',10,10);
+
+UPDATE POSTPAIDACCOUNT
+SET PLAN_PLANID = 4567
+WHERE MOBILENO = 4 AND CUSTOMER_CUSTOMERID=1;
+
+
+SELECT * FROM PLAN WHERE PLANID IN (SELECT PLAN_PLANID FROM POSTPAIDACCOUNT WHERE MOBILENO=?1 AND CUSTOMER_CUSTOMERID=?2)
+
+DELETE FROM POSTPAIDACCOUNT
+WHERE CUSTOMER_CUSTOMERID=?1 AND MOBILENO = ?2 ;
